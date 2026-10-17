@@ -14,3 +14,6 @@ Result: all 16 tests passed locally. The synthetic example processed 6 made-up l
 Covered cases include event/horizon boundaries, foreclosure/REO, missing follow-up, early payoff, duplicate IDs/months, orphan joins, excluded repayment fields and disjoint chronological splits. Actual source-code mapping, units, date alignment and real cohort validation are pending.
 
 A GitHub Actions workflow is configured separately. Its verified status and run URL must be read from GitHub, not inferred from this local test.
+
+GitHub Actions verification: the workflow completed successfully on October 17: https://github.com/HazimAli07/resl-capstone/actions/runs/39042829327 .
+The real-data path was also exercised and stopped with the expected access-confirmation error while the permission record remained false.
