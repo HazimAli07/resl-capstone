@@ -1,12 +1,12 @@
 # Team account access - October 17, 2026
 
-Usernames were provided by the members in the capstone Messages group. Profile existence was verified on GitHub. No phone numbers or message contents are included here.
+Usernames were supplied in the capstone Messages group and verified on GitHub. Invitations were sent to all three members. This record is a snapshot; check the repository for later acceptance or task changes.
 
-| Member | Account | Repository access | Issue assignment |
+| Member | Account | Access status | Assigned issues |
 | --- | --- | --- | --- |
-| Hazim | HazimAli07 | Repository owner | Four D2 tasks assigned |
-| Mannan | Mannan1398 | Write invitation pending acceptance | Owner labels set; account assignment pending acceptance |
-| Sweta | shwetachd1 | Write invitation pending acceptance | Owner labels set; account assignment pending acceptance |
-| Tommy | Phillips19 | Write invitation pending acceptance | Owner labels set; account assignment pending acceptance |
+| Hazim | HazimAli07 | Repository owner | #1, #5, #9, #13 |
+| Mannan | Mannan1398 | invitation pending acceptance | Owner labels set; account assignment awaits acceptance |
+| Sweta | shwetachd1 | active collaborator | #3, #7, #11, #15 |
+| Tommy | Phillips19 | invitation pending acceptance | Owner labels set; account assignment awaits acceptance |
 
-The three pending write invitations were independently read back from the GitHub API. Sending an invitation is not confirmation that the recipient accepted it or contributed work. Refresh this record after acceptance and then assign their four D2 issues.
+An accepted invitation establishes repository access, not a completed task or review. Only record actual work.

@@ -42,4 +42,4 @@ If an owner cannot finish: record the blocker before the checkpoint, reduce or r
 
 ## Account access - October 17
 
-Write-access invitations are pending for Mannan1398, shwetachd1 and Phillips19. They need to accept before their issues can be assigned to their accounts. Proposed owner labels already identify all four tasks for each person. See `docs/team_access.md`.
+Invitations were sent to Mannan1398, shwetachd1 and Phillips19. Current acceptance and issue assignments are recorded in `docs/team_access.md` and on each task issue. Task completion remains separate from account access.
