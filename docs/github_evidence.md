@@ -31,7 +31,7 @@ All 16 local tests and the synthetic example passed. GitHub Actions independentl
 
 ## Current access and review limits
 
-Teammate usernames have not been supplied. The issues are labelled with D2 owners, but Mannan, Sweta and Tommy have not been invited or assigned by GitHub account. No review has been performed by them.
+The usernames were supplied in the capstone Messages group: Mannan1398 (Mannan), shwetachd1 (Sweta) and Phillips19 (Tommy). Write-access invitations were sent and read back as pending on October 17. GitHub does not yet allow their accounts to be assigned to issues. Owner labels and issue bodies identify their tasks. No teammate review has been performed.
 
 GitHub rejected main-branch protection for this private repository because it requires an upgraded account plan. The repository stays private. Teammate reviews are documented in the workflow and PR template but are not technically enforced. Do not describe main as protected.
 

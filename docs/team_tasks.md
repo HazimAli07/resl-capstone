@@ -39,3 +39,7 @@ This internal target is proposed to leave review time before PR2, due October 20
 Each owner works on a task branch, links the issue in a PR, writes what changed and what ran, and requests a teammate review. A review, test case, data dictionary, reproducibility check or documented analysis can be a real contribution; commit counts alone are not a fair measure. Co-author credit needs an actual contribution and consent.
 
 If an owner cannot finish: record the blocker before the checkpoint, reduce or reassign the task openly, and preserve the original task history. Do not invent work, commits or meeting records. Keep evidence of reminders and actual contributions. If repeated non-participation remains unresolved, ask the team leader to raise it with the instructor before the submission deadline. The instructor determines any grading consequence; do not promise a grade or sign on another member's behalf.
+
+## Account access - October 17
+
+Write-access invitations are pending for Mannan1398, shwetachd1 and Phillips19. They need to accept before their issues can be assigned to their accounts. Proposed owner labels already identify all four tasks for each person. See `docs/team_access.md`.
