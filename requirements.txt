@@ -1,0 +1,2 @@
+# The initial data-checking code uses only the Python standard library.
+# Add and pin third-party packages when they are installed and actually used.

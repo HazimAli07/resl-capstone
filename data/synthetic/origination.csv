@@ -1,0 +1,7 @@
+loan_id,origination_date,credit_score,dti,ltv,original_balance,original_rate,original_term,loan_purpose,occupancy,property_type
+SYNTHETIC_001,2017-01-01,705,31,76,210000,4.0,360,purchase,primary,single_family
+SYNTHETIC_002,2017-06-01,710,32,77,220000,4.0,360,purchase,primary,single_family
+SYNTHETIC_003,2018-01-01,715,33,78,230000,4.0,360,purchase,primary,single_family
+SYNTHETIC_004,2018-04-01,720,34,79,240000,4.0,360,purchase,primary,single_family
+SYNTHETIC_005,2019-01-01,725,35,80,250000,4.0,360,purchase,primary,single_family
+SYNTHETIC_006,2019-02-01,730,36,81,260000,4.0,360,purchase,primary,single_family
