@@ -35,3 +35,9 @@ D2 confirms Sweta owns 1.3, 2.3, 3.3 and 4.3. Week 6–7 prioritizes labels, pay
 The PR2 template explicitly prohibits AI-generated text in submitted deliverables. These AI-assisted working notes and tests are offered for repository review, not as a submitted academic report; they are review aids. Student report wording must follow the course policy, and the team should establish what code assistance is permitted before incorporating generated code into an assessed deliverable. Do not present these notes as student-authored report text.
 
 PR2 follow-up checks: confirm actual submission versus draft status; verify meeting details and fresh signatures with participants; reconcile changed repository visibility with the original private-repo plan; check references and document rendering before any future submission. No signatures or meeting details have been copied from the uploaded PDFs.
+
+## Independent follow-up — October 26 (after PR #18)
+
+PR #18 was approved by HazimAli07 and merged to main (merge commit `6f3b62bf689e95fde2f0a00357d461c35fbfa86c`). Its pull-request workflow run `40405726773` passed. The unchecked historical review box and pending wording above describe the pre-review snapshot, not the current PR #18 state. Release-specific review remains separate.
+
+On `sweta/rule-score-validation`, Sweta's AI-assisted working components now include a public guide review supplement, a proposed point-score module, validation-only diagnostic/cutoff tooling, a fully synthetic CLI/chart and 23 additional tests. All 49 tests passed locally on Python 3.12.14; the synthetic demo ran successfully. No source mapping, actual model or real-data evaluation was added. See `sweta_independent_work.md` for exact interfaces, assumptions and remaining dependencies. These new results are October 26 work, not PR2-period activity. Current-branch CI and teammate acceptance must be recorded after publication; no meeting details or signatures have been invented.
