@@ -53,7 +53,7 @@ class TrainPreprocessor:
         if not rows or any(row.get("split") != "train" for row in rows):
             raise ValueError("Fit requires nonempty, explicitly tagged train rows")
         ids = [str(row.get("loan_id", "")).strip() for row in rows]
-        if not all(ids) or len(set(ids)) != len(ids):
+        if any(row.get("loan_id") is None for row in rows) or not all(ids) or len(set(ids)) != len(ids):
             raise ValueError("Training IDs must be nonblank and unique")
         if any(not set(FEATURES).issubset(row) for row in rows):
             raise ValueError("Missing normalized input columns")
