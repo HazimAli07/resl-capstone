@@ -1,0 +1,29 @@
+{
+  "synthetic": false,
+  "accepted": false,
+  "release": null,
+  "train_before": null,
+  "test_from": null,
+  "training_as_of": null,
+  "validation_as_of": null,
+  "date_anchor": null,
+  "label_policy": null,
+  "split_rationale": null,
+  "source_dictionary": null,
+  "eligible_features": [
+    "credit_score",
+    "dti",
+    "ltv",
+    "original_balance",
+    "original_rate",
+    "original_term",
+    "loan_purpose",
+    "occupancy",
+    "property_type"
+  ],
+  "reviewed_by": null,
+  "reviewed_on": null,
+  "train_csv_sha256": null,
+  "validation_csv_sha256": null,
+  "note": "Unaccepted template. Populate only from permitted access and actual reviewed source/split facts; never use synthetic fixture dates as study choices."
+}
