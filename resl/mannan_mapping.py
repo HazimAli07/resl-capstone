@@ -58,9 +58,9 @@ def normalize_origination(rows, mapping, *, release, reviewed=False, synthetic=F
 def audit_cohort(origination, performance):
     """Aggregate-only audit, including failures; never emits IDs or raw rows."""
     origination, performance = list(origination), list(performance)
-    ids = [str(r.get("loan_id", "")).strip() for r in origination]
+    ids = ["" if r.get("loan_id") is None else str(r["loan_id"]).strip() for r in origination]
     known = {v for v in ids if v}
-    perf_ids = [str(r.get("loan_id", "")).strip() for r in performance]
+    perf_ids = ["" if r.get("loan_id") is None else str(r["loan_id"]).strip() for r in performance]
     months = [(str(r.get("loan_id", "")).strip(),
                str(r.get("month_on_book", "")).strip()) for r in performance]
     duplicate_months = sum(n - 1 for n in Counter(months).values() if n > 1)
@@ -89,7 +89,7 @@ def audit_cohort(origination, performance):
             report["invalid_numeric_values"][field] = invalid
     try:
         check_records(origination, performance)
-        report["normalized_checks_passed"] = not bool(report["invalid_numeric_values"])
+        report["normalized_checks_passed"] = not bool(report["invalid_numeric_values"] or report["blank_origination_ids"])
     except (ValueError, TypeError, KeyError):
         report["normalized_checks_passed"] = False
     report["limitation"] = "Aggregate software audit; not selected-release acceptance."
