@@ -233,5 +233,27 @@ class StreamlitUITests(unittest.TestCase):
         self.assertFalse(app.exception)
         self.assertEqual(app.metric[0].value, "Unscored")
 
+    def test_invalid_number_displays_error(self):
+        from pathlib import Path
+        from streamlit.testing.v1 import AppTest
+        app = AppTest.from_file(str(Path(__file__).resolve().parents[1] /
+                                   "resl/mannan_app.py")).run()
+        app.text_input[0].set_value("NaN")
+        app.button[0].click().run()
+        self.assertFalse(app.exception)
+        self.assertIn("nonfinite", app.error[0].value)
+        self.assertEqual(len(app.metric), 0)
+
+    def test_missing_information_remains_unscored(self):
+        from pathlib import Path
+        from streamlit.testing.v1 import AppTest
+        app = AppTest.from_file(str(Path(__file__).resolve().parents[1] /
+                                   "resl/mannan_app.py")).run()
+        app.selectbox[0].select("Missing information").run()
+        app.button[0].click().run()
+        self.assertFalse(app.exception)
+        self.assertEqual(app.metric[0].value, "Unscored")
+        self.assertIn("Complete missing fields", app.info[0].value)
+
 if __name__ == "__main__":
     unittest.main()
