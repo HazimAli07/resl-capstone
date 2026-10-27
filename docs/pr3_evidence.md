@@ -27,8 +27,10 @@ and an integrated synthetic-trained Streamlit preview. The full combined suite
 passed 86 tests, including six Streamlit cases, without skips.
 
 A technical integration review was posted from Hazim's account on PR #20 with
-AI assistance disclosed. It does not stand in for independent human sign-off.
-PR #21 is assigned to Hazim and requests Mannan's review. Both PRs remain open.
+AI assistance disclosed. GitHub then recorded Mannan1398's approval of PR #21
+and its merge into Mannan's branch. HazimAli07 approved PR #20; that reviewed
+implementation was subsequently merged into main. Source/data/model acceptance
+conditions remain separate from these code-review records.
 
 ## Hazim's task status
 
@@ -45,7 +47,7 @@ The four issues remain open because these acceptance conditions are unresolved.
 
 - Full CI run 40428409304: 86 tests passed with no skips. The model and original
   demo checks include six Streamlit UI cases.
-- Current implementation revision 69dbc90f00597c462bae48c28d100c0fa78a6bdc:
+- Verified implementation revision 69dbc90f00597c462bae48c28d100c0fa78a6bdc:
   both push and pull-request Data/Hazim model checks passed.
 - Synthetic training created 120 training applications (113 observed labels,
   7 censored) and 40 validation applications (37 observed, 3 censored).
@@ -66,10 +68,11 @@ estimates of real mortgage accuracy, calibration, fairness or business value.
 ## Team and integration status
 
 Sweta's label-boundary tests are in main through merged PR #18. Her proposed
-rule-score/validation work is in open PR #19 and is not part of Hazim's current
-branch. Actual baseline results, calibration and cutoffs still need reviewed data
-and model predictions. Tommy's split, logistic-regression and explanation
-acceptance outputs are not verified by this checkpoint.
+rule-score/validation work was merged into main through PR #19. Actual baseline results, calibration and cutoffs still need reviewed data
+and model predictions. Tommy is the assigned owner of split review (1.4), logistic regression (2.4),
+explanation/fairness review (3.4) and final report/demo assembly (4.4).
+His work is pending and planned for the next work period; no completed
+implementation or verification is claimed.
 
 The original Mannan preview remains unscored. Hazim's separate model preview
 displays explicitly synthetic-trained output and refuses actual-data model
@@ -99,5 +102,5 @@ and course-permitted assistance rules before submission.
 - Mannan implementation/review: https://github.com/HazimAli07/resl-capstone/pull/20
 - Full 86-test run: https://github.com/HazimAli07/resl-capstone/actions/runs/40428409304
 - Verified current PR model run: https://github.com/HazimAli07/resl-capstone/actions/runs/40428645928
-- Sweta proposed baseline: https://github.com/HazimAli07/resl-capstone/pull/19
+- Sweta merged baseline implementation: https://github.com/HazimAli07/resl-capstone/pull/19
 - Hazim tasks: issues #1, #5, #9 and #13 in the same repository.
