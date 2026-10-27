@@ -2,7 +2,21 @@
 
 INFO53883 pre-loan mortgage-risk research prototype. We use information available at application/origination to study adverse outcomes within 24 months. Later repayment records construct labels only. The eventual app supports human review; it does not approve, reject or price loans.
 
-## Current status - October 17, 2026
+## Development checkpoint - October 26, 2026
+
+Mannan's [PR #20](https://github.com/HazimAli07/resl-capstone/pull/20) adds normalized-data audits, train-fitted preprocessing, comparison tools and a local input preview. Hazim's [PR #21](https://github.com/HazimAli07/resl-capstone/pull/21) builds on it with label-availability/date gates, bounded random forests, portable JSON model packaging and a separate synthetic-trained Streamlit preview. Both PRs await independent acceptance. Main remains the reviewed baseline until the PRs are accepted.
+
+The combined development suite passed **86 tests**, including six Streamlit cases, in [CI](https://github.com/HazimAli07/resl-capstone/actions/runs/40428409304). All training checks use invented data. Actual source access/release, source/date/code acceptance, cohort results, model comparison, calibration/bands and human reviews remain pending.
+
+See [Hazim's handoff](docs/hazim_handoff.md), [Mannan's handoff](docs/mannan_handoff.md) and the [PR3 working draft/evidence](docs/pr3_evidence.md). To run the synthetic-trained model preview from Hazim's branch:
+
+```bash
+python -m pip install -r requirements-model.txt -r requirements-demo.txt
+python -m resl.hazim_training --synthetic
+python -m streamlit run resl/hazim_app.py --server.address 127.0.0.1
+```
+
+## Baseline snapshot - October 17, 2026
 
 The repository and starter data checks were created on October 17. The checks have been exercised on made-up records only. Freddie Mac permission, release selection, raw-field mapping and cohort checks remain pending. No model has been trained and no Streamlit app has been built. The team must review the starter code and label policy before using them for its study.
 
