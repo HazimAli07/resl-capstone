@@ -1,0 +1,2 @@
+# Optional local-demo dependency; core checks remain standard-library only.
+streamlit==1.50.0
