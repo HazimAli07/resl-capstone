@@ -45,3 +45,12 @@ On `sweta/rule-score-validation`, Sweta's AI-assisted working components now inc
 ### Existing-code integration follow-up
 
 Added Sweta-owned `resl/sweta_pipeline.py` and `tests/test_sweta_pipeline.py` to reuse the existing RESL QA, labels, allowlisted inputs, chronological splits and unchanged synthetic fixtures. All 57 tests passed. The runner saves point scores, validation-only score rows and a checksum/settings manifest under ignored results storage. Its synthetic run retained the project's six loans and label counts. Both validation fixtures are censored (zero eligible validation records), so no baseline performance or calibration result is claimed. Existing teammate source, schema, data and split code remain unchanged; exact commands and the handoff are in `sweta_independent_work.md`.
+
+## Model integration follow-up — October 26, 2026
+
+PR #19 was approved by Mannan1398 and merged into main. Built additive
+Sweta model-review integration using Hazim's forests and Mannan's preprocessing,
+without editing their files. See sweta_model_integration.md for commands,
+synthetic results, cohort checks, 122-test local evidence (six UI skips), output
+locations and remaining ownership/dependencies. No actual-data acceptance,
+calibration fit, final cutoff, meeting or signature is claimed.
