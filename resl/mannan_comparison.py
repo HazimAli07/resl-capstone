@@ -67,8 +67,8 @@ def compare_candidates(rows, *, capacity, threshold=0.5, split="validation",
     for row in rows:
         if row.get("split") != split:
             raise ValueError("Mixed or incorrect prediction split")
-        model = str(row.get("model", "")).strip()
-        loan = str(row.get("loan_id", "")).strip()
+        model = "" if row.get("model") is None else str(row["model"]).strip()
+        loan = "" if row.get("loan_id") is None else str(row["loan_id"]).strip()
         target = row.get("target")
         if not model or not loan or (model, loan) in seen:
             raise ValueError("Blank or duplicate model/loan ID")
