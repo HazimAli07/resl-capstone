@@ -1,0 +1,18 @@
+normalized_field,source_concept,prediction_role,timing_decision,release_acceptance
+loan_id,Loan sequence number,excluded,join metadata only,pending
+origination_date,Unaccepted source date or agreed proxy,excluded,split metadata only,pending
+credit_score,Origination credit score,candidate,origination research cutoff only; verify source snapshot,pending
+dti,Original DTI percent,candidate,origination research cutoff only; verify numerator and timing,pending
+ltv,Original LTV percent,candidate,origination research cutoff only; preserve original value,pending
+original_balance,Original UPB USD,candidate,original amount only; preserve disclosed rounding,pending
+original_rate,Original annual interest rate percent,candidate,origination terms; unavailable for earlier application decisions,pending
+original_term,Original term months,candidate,origination terms; unavailable for earlier application decisions,pending
+loan_purpose,Original purpose code,candidate,explicit normalized code conversion required,pending
+occupancy,Original occupancy code,candidate,original reported intent only,pending
+property_type,Original property type code,candidate,preserve PUD and cooperative categories,pending
+month_on_book,Later reporting month,excluded,label construction only,pending
+delinquency_days,Reviewed delinquency bucket conversion,excluded,label construction only,pending
+status,Reviewed terminal event conversion,excluded,label construction only,pending
+current_balance,Current balance,excluded,post-origination performance,pending
+target,24 month outcome,excluded,supervision only; label availability cutoff enforced,pending
+label_available_on,Date label becomes observable,excluded,label eligibility and experiment provenance only,pending

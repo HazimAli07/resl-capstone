@@ -1,0 +1,33 @@
+name: Mannan demo checks
+on:
+  push:
+    branches: ['mannan/**']
+  pull_request:
+    paths:
+      - 'resl/mannan_*'
+      - 'tests/test_mannan_work.py'
+      - 'requirements-demo.txt'
+      - '.github/workflows/mannan-demo.yml'
+permissions:
+  contents: read
+jobs:
+  streamlit-demo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      STREAMLIT_BROWSER_GATHER_USAGE_STATS: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-demo.txt
+      - name: Install the optional demo dependency
+        run: python -m pip install -r requirements-demo.txt
+      - name: Record actual environment
+        run: python -c "import platform, streamlit; print('Python', platform.python_version(), 'Streamlit', streamlit.__version__)"
+      - name: Run core and Streamlit acceptance checks
+        run: python -m unittest discover -s tests -v
+      - name: Generate the synthetic offline fallback
+        run: python -m resl.mannan_demo
