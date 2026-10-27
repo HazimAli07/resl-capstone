@@ -240,7 +240,7 @@ class ModelAppTests(unittest.TestCase):
         app.button[0].click().run()
         self.assertFalse(app.exception)
         self.assertFalse(app.error)
-        self.assertIn("Imputed missing fields", str(app.markdown))
+        self.assertTrue(any("Imputed missing fields" in item.value for item in app.markdown))
 
 if __name__ == "__main__":
     unittest.main()
