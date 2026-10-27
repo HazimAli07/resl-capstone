@@ -16,8 +16,10 @@ No task is declared fully accepted by this contribution.
 | resl/mannan_app.py | Optional local Streamlit form over the same service |
 | tests/test_mannan_work.py | Mapping, leakage, hand-calculated metrics, censoring and demo checks |
 
-Existing teammate code, access record, labels, split choices and task ownership
-were not changed. Work does not depend on unmerged Sweta PR #19.
+Existing teammate code, access record, labels and split choices were preserved.
+A dedicated demo workflow and optional requirements file were added. Mannan's
+access acceptance and issue assignment are recorded separately. This work does
+not depend on unmerged Sweta PR #19.
 
 ## 1.2 — proposed mapping and unresolved source decisions
 
@@ -120,17 +122,18 @@ predictions or loan-cohort performance have been produced by this work.
 From the repository root:
 
     python -m resl.mannan_demo
+    python -m pip install -r requirements-demo.txt
     python -m streamlit run resl/mannan_app.py --server.address 127.0.0.1
 
 The first command uses only the standard library and produces
 results/mannan-demo/offline_demo.html and synthetic_previews.json. Open the HTML
 offline; it has three expandable made-up examples and no external assets.
 
-Streamlit is an optional dependency and was not available in the execution
-environment. The package installation attempt could not resolve a distribution.
-Install Streamlit from its official package, record the resolved version and
-rerun the optional AppTest before accepting the UI. No unverified dependency
-pin was added to the existing requirements.
+Streamlit remains optional for the core checks. Local installation was unavailable,
+so a separate GitHub Actions job installed and verified Streamlit 1.50.0 with
+Python 3.12.15. All three AppTest cases passed: valid application, invalid numeric
+input, and missing information. The existing core requirements were preserved.
+The dedicated workflow has read-only contents permission and a 10-minute limit.
 
 The app validates inputs and displays an Unscored band, missing-field feedback
 and input summaries. These are not model attributions. It cannot invent a risk
@@ -145,8 +148,17 @@ Python 3.12.14:
 
     python -m unittest discover -s tests -v
 
-55 tests discovered: 54 passed and 1 optional Streamlit AppTest skipped because
-Streamlit is not installed. The 29 new checks include the optional UI test.
+Local standard-library run: 57 tests discovered, 54 passed and 3 optional
+Streamlit tests skipped. GitHub Actions then ran all 57 successfully with no
+skips, including the three real Streamlit AppTest cases. The contribution adds
+31 tests to the original 26.
+
+Verified CI at commit 3d62f51484fd7d0d48ad6098b17d751489c763f1:
+https://github.com/HazimAli07/resl-capstone/actions/runs/40426161223
+
+The job log records Python 3.12.15, Streamlit 1.50.0, 57 tests and OK.
+The existing Data checks workflow also passed:
+https://github.com/HazimAli07/resl-capstone/actions/runs/40426161212
 The standard-library demo completed with three made-up cases and no model.
 The original synthetic pipeline also passed: six loans, two positives, one
 negative and three censored. These are software checks, not fitted-model results.
@@ -163,5 +175,18 @@ Sweta: raw outcome-code conversion, censoring and reviewed band integration.
 Mannan: inspect and understand the assisted implementation and run it locally.
 
 Selected-release mapping, actual cohort results, fitted-model comparisons,
-Streamlit runtime testing and end-to-end trained-model app behavior remain open.
+independent visual acceptance and end-to-end trained-model app behavior remain open.
 No independent teammate review, meeting, signature or actual-data result is claimed.
+
+
+## Current task status
+
+| Task | Implemented and verified | Remaining acceptance dependency |
+|---|---|---|
+| 1.2 / #2 | Explicit export adapter, aggregate join/missingness/duplicate audit, proposed source mapping | Authorized release, source-code dictionary/date anchor and actual cohort audit |
+| 2.2 / #6 | Training-only transformation, missing/unknown handling and leakage tests | Reviewed inputs/splits and integration into the selected fitted model package |
+| 3.2 / #10 | Matched-cohort comparisons, capacity/tie policy and frozen-candidate test interface | Actual validation predictions, model selection and later-loan final test |
+| 4.2 / #14 | Streamlit form, three passing UI tests, offline fallback and repeatable dependency setup | Reviewed trained-model/band contract and human demo acceptance |
+
+Issues stay open while these external dependencies and independent review are
+pending. Passing synthetic tests is evidence of software behavior only.
