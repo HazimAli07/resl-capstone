@@ -73,6 +73,7 @@ class MappingTests(unittest.TestCase):
 
     def test_valid_audit_and_invalid_numeric(self):
         self.assertTrue(audit_cohort([loan()], [])["normalized_checks_passed"])
+        self.assertFalse(audit_cohort([loan(ident=None)], [])["normalized_checks_passed"])
         self.assertEqual(audit_cohort([loan(dti="NaN")], [])
                          ["invalid_numeric_values"], {"dti": 1})
 
@@ -93,7 +94,7 @@ class PreprocessingTests(unittest.TestCase):
 
     def test_fit_rejects_validation_test_duplicate_and_missing_ids(self):
         for rows in ([loan(split="test")], [loan(split="validation")],
-                     [loan(), loan()], [loan(ident="")], []):
+                     [loan(), loan()], [loan(ident="")], [loan(ident=None)], []):
             with self.subTest(rows=rows), self.assertRaises(ValueError):
                 TrainPreprocessor().fit(rows)
 
@@ -158,9 +159,11 @@ class ComparisonTests(unittest.TestCase):
         self.assertEqual(set(result["models"]), {"rule", "tree"})
 
     def test_duplicate_ids_labels_and_bad_probabilities_rejected(self):
-        cases = [predictions() + [predictions()[0]], predictions(), predictions()]
+        cases = [predictions() + [predictions()[0]], predictions(), predictions(), predictions(), predictions()]
         cases[1][0]["target"] = "1"
         cases[2][0]["probability"] = "NaN"
+        cases[3][0]["loan_id"] = None
+        cases[4][0]["model"] = None
         for rows in cases:
             with self.assertRaises(ValueError):
                 compare_candidates(rows, capacity=2)
