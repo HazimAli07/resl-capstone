@@ -1,0 +1,2 @@
+# Optional bounded model experiment; full resolved versions are saved per run.
+scikit-learn==1.7.2
