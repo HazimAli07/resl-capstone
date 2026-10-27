@@ -99,3 +99,29 @@ assert round(diagnostics["brier_score"], 3) == .025
 October 26: started this branch from merged PR #18 (`6f3b62b`); inspected the committed contract/access record; checked the public guide; implemented additive research tools; ran 49 unit/integration tests successfully and both synthetic commands. Generated outputs remain under ignored `results/`. Python runtime is 3.12.14; all committed executable code uses the standard library. The SVG is blue (#0072B2) with a grey dashed reference line, visible labels and interval marks; meaning does not depend on colour alone.
 
 Publication/CI/review links will be supplied on the new pull request. Meeting details, signatures, selected release, actual input data, fitted models and actual probability/cutoff results remain unavailable in this work. No claim is made about work outside the repository.
+
+## Follow-up: connected to the existing RESL pipeline
+
+The independent score is now composed with the repository's existing code through `resl/sweta_pipeline.py`. This is an additive Sweta 2.3 integration; existing project functions and data are not edited.
+
+```bash
+python -m resl.sweta_pipeline --synthetic --train-before 2018-01-01 --test-from 2019-01-01
+```
+
+The demonstration dates are the existing README's fixture dates, not adopted cohort splits.
+
+| Existing project component | Reused by Sweta's runner |
+| --- | --- |
+| `data_checks.summarize` | Runs `check_records` and the existing `outcome` policy; retains its quality counts and label/censoring reasons. |
+| `data_checks.chronological_split` | Assigns loan-level membership using caller-supplied chronological boundaries. |
+| `data_checks.feature_record` | Keeps IDs, dates and later performance data out of score inputs. |
+| `data/synthetic/origination.csv` and `performance.csv` | Used as-is for the integration check. |
+| Sweta's `score_application` | Adds points and per-feature explanations to the already checked loan records. |
+
+Outputs are restricted to ignored `results/` storage. `rule_scores.csv` preserves each loan's score, target, censoring reason, split, input warnings, component explanation and settings fingerprint. `validation_rule_scores.csv` contains validation rows only, retaining censored/ineligible rows explicitly. `manifest.json` saves settings, Python version, input/code/output hashes, quality counts and split/eligibility counts. Points are not renamed probabilities or passed into calibration.
+
+Observed integration result on the unmodified six-loan fixtures: two train, two validation and two test loans. Eligible labelled/scored counts are two, zero and one respectively. Both validation fixtures are censored. Therefore there is no eligible validation cohort for a baseline-performance estimate in this fixture set. This is a documented limitation, not a reason to change another owner's data or split choices. The overall label counts remain two positives, one negative and three censored loans.
+
+`tests/test_sweta_pipeline.py` adds eight integration tests: agreement with existing labels/counts, chronological membership, no outcome leakage into scores, explicit censoring, missing-input abstention, propagation of upstream join/duplicate failures, validation export/manifest hashes, and synthetic/input/output guards. All 57 project tests passed after this addition.
+
+The CLI currently refuses real-data mode because the score settings are proposed. The in-memory composition exposes the intended handoff interface; real integration requires the previously listed permission/mapping/input/split approvals. Calibration still requires actual fitted-model validation probabilities, which the existing repository does not currently supply. Sweta's calibration diagnostic API is ready to consume that future output, but no probabilities are fabricated from the rule-score pipeline.
