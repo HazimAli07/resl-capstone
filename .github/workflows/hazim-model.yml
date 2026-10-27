@@ -1,13 +1,13 @@
 name: Hazim model checks
 on:
   push:
-    branches: ["hazim/**"]
+    branches: ["main", "hazim/**"]
   pull_request:
     paths:
-      - "resl/hazim_*.py"
-      - "tests/test_hazim_work.py"
-      - "requirements-model.txt"
-      - ".github/workflows/hazim-model.yml"
+      - "resl/**"
+      - "tests/**"
+      - "requirements*.txt"
+      - ".github/workflows/*.yml"
 jobs:
   model-checks:
     runs-on: ubuntu-latest
