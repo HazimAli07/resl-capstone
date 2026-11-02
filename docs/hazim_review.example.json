@@ -25,5 +25,99 @@
   "reviewed_on": null,
   "train_csv_sha256": null,
   "validation_csv_sha256": null,
-  "note": "Unaccepted template. Populate only from permitted access and actual reviewed source/split facts; never use synthetic fixture dates as study choices."
+  "note": "Unaccepted template. Complete from permitted access and independent source, timing, label and split review. No approval or study dates are inferred from public documentation or synthetic checks.",
+  "review_version": "hazim-source-review-v2",
+  "prediction_stage": null,
+  "feature_timing_review": [
+    {
+      "feature": "credit_score",
+      "source_field": null,
+      "dictionary_reference": null,
+      "normalized_unit": "score",
+      "missing_codes": null,
+      "conversion": null,
+      "available_by": null,
+      "accepted": false
+    },
+    {
+      "feature": "dti",
+      "source_field": null,
+      "dictionary_reference": null,
+      "normalized_unit": "percent",
+      "missing_codes": null,
+      "conversion": null,
+      "available_by": null,
+      "accepted": false
+    },
+    {
+      "feature": "ltv",
+      "source_field": null,
+      "dictionary_reference": null,
+      "normalized_unit": "percent",
+      "missing_codes": null,
+      "conversion": null,
+      "available_by": null,
+      "accepted": false
+    },
+    {
+      "feature": "original_balance",
+      "source_field": null,
+      "dictionary_reference": null,
+      "normalized_unit": "USD",
+      "missing_codes": null,
+      "conversion": null,
+      "available_by": null,
+      "accepted": false
+    },
+    {
+      "feature": "original_rate",
+      "source_field": null,
+      "dictionary_reference": null,
+      "normalized_unit": "annual_percent",
+      "missing_codes": null,
+      "conversion": null,
+      "available_by": null,
+      "accepted": false
+    },
+    {
+      "feature": "original_term",
+      "source_field": null,
+      "dictionary_reference": null,
+      "normalized_unit": "months",
+      "missing_codes": null,
+      "conversion": null,
+      "available_by": null,
+      "accepted": false
+    },
+    {
+      "feature": "loan_purpose",
+      "source_field": null,
+      "dictionary_reference": null,
+      "normalized_unit": "category",
+      "missing_codes": null,
+      "conversion": null,
+      "available_by": null,
+      "accepted": false
+    },
+    {
+      "feature": "occupancy",
+      "source_field": null,
+      "dictionary_reference": null,
+      "normalized_unit": "category",
+      "missing_codes": null,
+      "conversion": null,
+      "available_by": null,
+      "accepted": false
+    },
+    {
+      "feature": "property_type",
+      "source_field": null,
+      "dictionary_reference": null,
+      "normalized_unit": "category",
+      "missing_codes": null,
+      "conversion": null,
+      "available_by": null,
+      "accepted": false
+    }
+  ]
 }

@@ -2,6 +2,14 @@
 
 INFO53883 pre-loan mortgage-risk research prototype. We use information available at application/origination to study adverse outcomes within 24 months. Later repayment records construct labels only. The eventual app supports human review; it does not approve, reject or price loans.
 
+## PR4 readiness checkpoint - November 2, 2026
+
+Hazim's [source/readiness work](docs/hazim_pr4_readiness.md) adds per-feature source/timing acceptance and a read-only actual-data readiness command. All 134 local tests passed, including model and Streamlit checks. These are software checks only; actual source access and experiment acceptance remain pending.
+
+    python -m resl.hazim_readiness --out results/pr4-readiness.json
+
+Exit 2 means the actual-data prerequisites are still blocked. The command does not read loan records, train a model or inspect the final test. Complete the versioned local review record from independently accepted source facts; never change acceptance flags merely to make this command pass.
+
 ## Development checkpoint - October 26, 2026
 
 Mannan's [PR #20](https://github.com/HazimAli07/resl-capstone/pull/20) adds normalized-data audits, train-fitted preprocessing, comparison tools and a local input preview. Hazim's [PR #21](https://github.com/HazimAli07/resl-capstone/pull/21) builds on it with label-availability/date gates, bounded random forests, portable JSON model packaging and a separate synthetic-trained Streamlit preview. Mannan approved PR #21 and merged it into his branch; Hazim approved PR #20, which is now merged into main. Sweta's PR #19 is also merged. Source/data/model acceptance remains pending.
