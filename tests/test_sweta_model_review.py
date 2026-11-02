@@ -52,3 +52,45 @@ class ModelIntegrationTests(unittest.TestCase):
         self.assertIn('SYNTHETIC', svg)
         self.assertIn('&lt;script&gt;', svg)
         self.assertNotIn('<script>', svg)
+
+
+class MatchedAbstentionRegressionTests(unittest.TestCase):
+    def test_model_comparison_excludes_same_labelled_abstention(self):
+        source = cohort()
+        source[0]['credit_score'] = None
+        report, scores = matched_review(source, predictions(), max_reviews=1)
+        common = report['matched_comparison']
+        self.assertEqual(common['labelled_count'], 1)
+        self.assertEqual(common['excluded_labelled_abstentions'], 1)
+        self.assertEqual(common['excluded_censored'], 1)
+        self.assertEqual(common['models']['a']['labelled_count'], report['rule_ranking']['labelled_scored'])
+        self.assertAlmostEqual(common['models']['a']['brier_score'], .04)
+        self.assertEqual(report['models']['a']['labelled_count'], 2)
+        self.assertEqual(scores[0]['invalid_inputs'], {'credit_score': 'missing'})
+        self.assertIsNone(scores[0]['score'])
+
+    def test_no_common_scoreable_rows_has_explicit_status(self):
+        source = cohort()
+        for row in source:
+            row['dti'] = None
+        report, _ = matched_review(source, predictions(), max_reviews=1)
+        self.assertEqual(report['matched_comparison']['models'], {})
+        self.assertEqual(report['matched_comparison']['status'], 'no_common_labelled_scoreable_loans')
+        self.assertIsNone(report['rule_ranking']['recall'])
+
+    def test_boolean_prediction_target_cannot_match_integer_label(self):
+        rows = predictions()
+        rows[0]['target'] = False
+        with self.assertRaisesRegex(ValueError, 'labels differ'):
+            matched_review(cohort(), rows, max_reviews=1)
+
+    def test_common_cohort_fingerprint_is_order_independent_and_label_sensitive(self):
+        first, _ = matched_review(cohort(), predictions(), max_reviews=0)
+        second, _ = matched_review(list(reversed(cohort())), list(reversed(predictions())), max_reviews=0)
+        self.assertEqual(first['matched_comparison']['cohort_sha256'], second['matched_comparison']['cohort_sha256'])
+        source, rows = cohort(), predictions()
+        source[0]['target'] = 1
+        for row in rows:
+            if row['loan_id'] == '0': row['target'] = 1
+        third, _ = matched_review(source, rows, max_reviews=0)
+        self.assertNotEqual(first['matched_comparison']['cohort_sha256'], third['matched_comparison']['cohort_sha256'])
