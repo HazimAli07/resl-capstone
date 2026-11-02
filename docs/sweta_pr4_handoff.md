@@ -104,3 +104,11 @@ watchdog==6.0.0
 ```
 
 Additional dependency verification: #24's unmodified detached head passed 134/134 tests; overlaying only this branch's three code/test files passed 142/142, with 0 failures/errors/skips in both runs. This is a local compatibility check, not a merge or acceptance of #24. `python -m resl.hazim_readiness` on its committed templates returned expected exit 2 and ready=false.
+
+## Publication checkpoint
+
+Local implementation commit: `3f5906b` (Codex-assisted). Publication was attempted after re-verifying GitHub identity as shwetachd1. GitHub's create-tree API returned HTTP 403, `Resource not accessible by integration`; terminal `git push -u origin sweta/pr4-label-baseline` failed because no HTTPS GitHub username/credential was available. No remote branch or draft PR was created, and no current-branch CI result is claimed. GitHub write access/authentication must be restored before push and draft-PR creation. Existing #24 CI links above remain clearly attributed to that PR.
+
+Prepared draft PR title: **Sweta PR4: matched rule-baseline cohorts, endpoint regressions and evidence**.
+
+Prepared PR description: Codex-assisted technical work for #3, #7 and #15. Preserves merged #18/#19/#23. Adds an explicit common labelled/scoreable validation cohort for rule/model comparison, abstention reasons and cohort fingerprint; rejects boolean target mismatches; adds eight regression methods for cohort and normalized 24-month endpoint behaviour. Targeted checks: 23 passed; full suite: 130 passed; local #24 compatibility overlay: 142 passed, all without failures/errors/skips. Python 3.12.14, scikit-learn 1.7.2, Streamlit 1.50.0. Source access/release, Mannan/Tommy review, actual cohort acceptance, live SLATE requirements and presentation slot remain pending. Synthetic evidence only; no raw records, actual row outputs, credentials or private course files included. No final-test tuning, calibration acceptance, submission, signatures, messages, merge or deployment. Keep issues open. Please review labels/date semantics and the matched-cohort interface before accepting.
