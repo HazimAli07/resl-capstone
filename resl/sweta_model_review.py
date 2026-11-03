@@ -36,7 +36,8 @@ def matched_review(validation, predictions, *, max_reviews):
     for name, rows in sorted(models.items()):
         if len(rows) != len(source) or {r['loan_id'] for r in rows} != set(source):
             raise ValueError('Models must share exact validation cohort')
-        if any(r['target'] != source[r['loan_id']]['target'] for r in rows):
+        if any(type(r.get('target')) is not type(source[r['loan_id']]['target'])
+               or r['target'] != source[r['loan_id']]['target'] for r in rows):
             raise ValueError('Model labels differ from validation cohort')
         diagnostics[name] = review_validation(rows, max_reviews=max_reviews)
     scores = []
@@ -44,8 +45,16 @@ def matched_review(validation, predictions, *, max_reviews):
         result = score_application(row)
         scores.append({'loan_id': loan, 'split': 'validation', 'target': row['target'],
                        'score': result['score'], 'eligible': row['target'] is not None and result['score'] is not None,
-                       'settings_sha256': result['settings_sha256']})
+                       'settings_sha256': result['settings_sha256'],
+                       'score_status': result['status'], 'invalid_inputs': result['invalid_inputs']})
     eligible = [r for r in scores if r['eligible']]
+    common_ids = {r['loan_id'] for r in eligible}
+    common_models = {name: review_validation(
+        [r for r in rows if r['loan_id'] in common_ids], max_reviews=max_reviews)
+        for name, rows in sorted(models.items())} if common_ids else {}
+    cohort_digest = hashlib.sha256(json.dumps(
+        sorted((r['loan_id'], r['target']) for r in eligible),
+        separators=(',', ':')).encode()).hexdigest()
     # Compare ranking at the same capacity, retaining whole tied score groups.
     ranked = []
     for threshold in sorted({r['score'] for r in eligible}, reverse=True):
@@ -56,13 +65,19 @@ def matched_review(validation, predictions, *, max_reviews):
     tp = sum(r['target'] for r in ranked)
     report = {'synthetic': True, 'accepted_for_final_test': False, 'final_test_used': False,
               'calibration_fitted': False, 'capacity': max_reviews, 'models': diagnostics,
+              'matched_comparison': {
+                  'status': 'research_only' if common_ids else 'no_common_labelled_scoreable_loans',
+                  'cohort_sha256': cohort_digest, 'labelled_count': len(eligible),
+                  'excluded_censored': sum(r['target'] is None for r in scores),
+                  'excluded_labelled_abstentions': sum(r['target'] is not None and r['score'] is None for r in scores),
+                  'models': common_models},
               'rule_ranking': {'labelled_scored': len(eligible), 'excluded': len(scores)-len(eligible),
                                'reviewed': len(ranked), 'tp': tp, 'fp': len(ranked)-tp,
                                'precision': tp/len(ranked) if ranked else None,
                                'recall': tp/sum(r['target'] for r in eligible) if sum(r['target'] for r in eligible) else None},
               'limitations': ['Invented cohort: software evidence only.',
                              'Cutoffs are validation proposals, not accepted policy or risk bands.',
-                             'Rule ranking uses all scoreable observed rows; compare cohort counts before interpreting.',
+                             'Use matched_comparison.models with rule_ranking; models contains full-cohort diagnostics only.',
                              'Same-cohort model selection and cutoff proposals are optimistic.',
                              'No calibration fitting or final-test evaluation performed.']}
     return report, scores

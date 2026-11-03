@@ -53,3 +53,22 @@ class LabelReviewTests(unittest.TestCase):
     def test_no_in_window_observations_is_incomplete(self):
         self.assertEqual(outcome([row(25)]),
                          dict(target=None, reason="censored_incomplete_followup"))
+
+
+class PR4EndpointRegressionTests(unittest.TestCase):
+    def test_month_24_event_with_gap_and_same_month_payoff_is_positive(self):
+        self.assertEqual(outcome([row(1), row(24, 90, 'paid_off')]),
+                         dict(target=1, reason='observed_adverse_outcome'))
+
+    def test_event_after_complete_horizon_does_not_change_negative(self):
+        self.assertEqual(outcome([row(m) for m in range(1, 25)] + [row(25, 90)])['target'], 0)
+
+    def test_raw_bucket_and_missing_codes_are_not_normalized_days(self):
+        # Invented raw strings: callers must use a reviewed release dictionary.
+        for value in ('03', '', 'XX', None):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                outcome([row(1, value)])
+
+    def test_early_payoff_reason_precedes_gap_without_event(self):
+        self.assertEqual(outcome([row(2), row(23, status='paid_off')]),
+                         dict(target=None, reason='censored_early_payoff'))
