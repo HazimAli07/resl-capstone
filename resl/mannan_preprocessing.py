@@ -1,4 +1,5 @@
-"""Train-only preprocessing for normalized inputs; AI-assisted D2 2.2 work."""
+"""Train-only preprocessing for normalized inputs; Codex-assisted D2 2.2 work."""
+import copy
 import math
 from statistics import median, mean, pstdev
 from .data_checks import FEATURES
@@ -41,7 +42,10 @@ class TrainPreprocessor:
 
     Median imputation, z-scaling, numeric missing flags and explicit missing/
     unknown category columns. Caller verifies split provenance; tags are not proof.
-    Only FEATURES enter the matrix, regardless of metadata/future columns.
+    Only FEATURES enter the matrix, regardless of metadata/future columns. If
+    labels are supplied, every fit row must have an observed binary target;
+    censoring is handled by the training runner before fitting. Unlabelled rows
+    remain supported for standalone software checks, not as cohort acceptance.
     """
     def __init__(self):
         self.fitted = False
@@ -52,6 +56,10 @@ class TrainPreprocessor:
         rows = list(rows)
         if not rows or any(row.get("split") != "train" for row in rows):
             raise ValueError("Fit requires nonempty, explicitly tagged train rows")
+        if any("target" in row for row in rows) and any(
+                type(row.get("target")) is not int or row["target"] not in (0, 1)
+                for row in rows):
+            raise ValueError("Fit requires observed binary targets when labels are supplied")
         ids = [str(row.get("loan_id", "")).strip() for row in rows]
         if any(row.get("loan_id") is None for row in rows) or not all(ids) or len(set(ids)) != len(ids):
             raise ValueError("Training IDs must be nonblank and unique")
@@ -109,8 +117,54 @@ class TrainPreprocessor:
         return result
 
     def metadata(self):
-        """Fitted metadata can be sensitive: keep actual-data settings local."""
-        return {"version": "mannan-preprocessing-v1", "fit_split": "train",
+        """Return detached v1 package metadata; actual-data settings stay local."""
+        return copy.deepcopy({"version": "mannan-preprocessing-v1", "fit_split": "train",
                 "training_count": getattr(self, "training_count", 0),
                 "feature_names": self.feature_names(), "numeric": self.stats,
-                "categories": self.categories}
+                "categories": self.categories})
+
+    @classmethod
+    def from_metadata(cls, metadata):
+        """Restore fitted v1 JSON settings without observing or fitting any rows.
+
+        This uses the existing model-package schema. File digests, access,
+        software versions and independently reviewed splits remain the package
+        owner's responsibility; metadata alone cannot establish provenance.
+        """
+        expected = {"version", "fit_split", "training_count", "feature_names",
+                    "numeric", "categories"}
+        if not isinstance(metadata, dict) or set(metadata) != expected:
+            raise ValueError("Invalid preprocessing metadata schema")
+        if (metadata["version"] != "mannan-preprocessing-v1" or
+                metadata["fit_split"] != "train"):
+            raise ValueError("Unsupported preprocessing metadata")
+        count = metadata["training_count"]
+        if type(count) is not int or count < 1:
+            raise ValueError("Invalid training count")
+        stats, categories = metadata["numeric"], metadata["categories"]
+        if (not isinstance(stats, dict) or set(stats) != set(NUMERIC) or
+                not isinstance(categories, dict) or set(categories) != set(CATEGORICAL)):
+            raise ValueError("Preprocessing fields differ from contract")
+        for field, stat in stats.items():
+            if (not isinstance(stat, dict) or set(stat) != {"median", "mean", "scale"}
+                    or any(type(v) not in (int, float) or not math.isfinite(v)
+                           for v in stat.values()) or stat["scale"] <= 0):
+                raise ValueError("Invalid numeric fitted settings")
+            # A median can be fractional even for integer-valued inputs.
+            low, high = BOUNDS[field]
+            for key in ("median", "mean"):
+                if (stat[key] < low or (high is not None and stat[key] > high)
+                        or (field == "original_balance" and stat[key] == 0)):
+                    raise ValueError("Numeric fitted settings outside interface bounds")
+        for values in categories.values():
+            if (not isinstance(values, (list, tuple)) or
+                    any(not isinstance(v, str) or not v or v != v.strip() for v in values) or
+                    len(set(values)) != len(values)):
+                raise ValueError("Invalid category vocabulary")
+        prep = cls()
+        prep.stats = copy.deepcopy(stats)
+        prep.categories = {field: tuple(values) for field, values in categories.items()}
+        prep.training_count, prep.fitted = count, True
+        if metadata["feature_names"] != prep.feature_names():
+            raise ValueError("Fitted feature order mismatch")
+        return prep
