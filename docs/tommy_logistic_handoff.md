@@ -63,9 +63,12 @@ cutoff selection remain separate and must wait until a candidate is frozen.
   requirement installed. After the fix, all three GitHub Actions checks passed
   on commit `529c3751e81afe07fc331a6affc76e0d214b3988`; the model-checks job
   reports 131 tests run.
-- Runtime was Python **3.13.15**, scikit-learn **1.7.2**, NumPy **2.5.4**, SciPy
-  **1.18.1**, joblib **1.6.0**, threadpoolctl **3.7.0**, and Streamlit **1.50.0**.
-  The pinned model/demo dependencies were installed into an isolated local venv.
-- Python 3.12 was not available in this environment. Attempting to install the
-  official 3.12 runtime was blocked by the sandbox, so the required Python 3.12
-  verification remains outstanding; the Python 3.13 run is not a substitute.
+- Local runtime was Python **3.13.15**, scikit-learn **1.7.2**, NumPy **2.5.4**,
+  SciPy **1.18.1**, joblib **1.6.0**, threadpoolctl **3.7.0**, and Streamlit
+  **1.50.0**. The pinned model/demo dependencies were installed into an isolated
+  local venv.
+- Python 3.12 was unavailable on the local Windows host; launching its installer
+  was blocked by the sandbox. The final PR model-checks workflow used its
+  isolated Python **3.12** environment, installed both pinned requirement files,
+  and passed all **131 tests**. This satisfies the Python 3.12 verification in
+  CI; the local Windows run remains Python 3.13.
