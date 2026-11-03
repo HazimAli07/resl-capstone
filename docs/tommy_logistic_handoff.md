@@ -55,6 +55,12 @@ cutoff selection remain separate and must wait until a candidate is frozen.
   permission errors in existing tests; rerunning with `TEMP`/`TMP` in the task
   workspace passed.
 - `python -m compileall -q resl tests`: passed.
+- The first PR GitHub Actions data-check job failed because that lightweight
+  workflow does not install optional scikit-learn; it reported the new test
+  class as an import error. The dedicated tests now follow the repository's
+  optional-model test convention and skip when that dependency is absent. The
+  local full suite still runs all 9 dedicated tests with the pinned model
+  requirement installed. A rerun on the updated PR commit is pending.
 - Runtime was Python **3.13.15**, scikit-learn **1.7.2**, NumPy **2.5.4**, SciPy
   **1.18.1**, joblib **1.6.0**, threadpoolctl **3.7.0**, and Streamlit **1.50.0**.
   The pinned model/demo dependencies were installed into an isolated local venv.

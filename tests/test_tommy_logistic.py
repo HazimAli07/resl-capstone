@@ -10,7 +10,14 @@ from resl.tommy_logistic import (
     PREDICTION_COLUMNS, REGULARIZATION_GRID, synthetic_cohort, train_candidates,
 )
 
+try:
+    import sklearn  # noqa: F401
+    HAS_MODEL = True
+except ImportError:
+    HAS_MODEL = False
 
+
+@unittest.skipUnless(HAS_MODEL, "optional model requirements unavailable")
 class TommyLogisticTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
