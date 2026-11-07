@@ -2,6 +2,19 @@
 
 INFO53883 pre-loan mortgage-risk research prototype. We use information available at application/origination to study adverse outcomes within 24 months. Later repayment records construct labels only. The eventual app supports human review; it does not approve, reject or price loans.
 
+## PR5 real-data acquisition workflow - November 7, 2026
+
+Official Freddie Mac Standard samples for **2016, 2019 and 2022** have been acquired and verified locally. The [source manifest](docs/freddie_source_manifest.json) records their sizes/checksums and public provenance; the [access record](docs/data_access.json) now records Hazim's confirmed individual access. Raw archives, loan rows, prepared records and fitted artifacts remain outside this public repository.
+
+The [source workflow](docs/freddie_source_workflow.md) describes local integrity checks and the new GitHub Actions source-check job. CI validates metadata and invented archive cases without accessing licensed loans. To verify your own local downloads:
+
+```bash
+python -m resl.freddie_source --archive-dir data/raw/freddie_mac/2026-11-07 --out results/freddie-source-local.json
+python -m resl.hazim_readiness --out results/actual-data-readiness.json
+```
+
+Access passes, but readiness remains blocked until source/input timing, label/calendar/split acceptance and prepared-input hashes are complete. No actual mortgage-model results are claimed. The vintage assignments are provisional. Earlier checkpoints below are historical snapshots.
+
 ## PR4 readiness checkpoint - November 2, 2026
 
 Hazim's [source/readiness work](docs/hazim_pr4_readiness.md) adds per-feature source/timing acceptance and a read-only actual-data readiness command. All 134 local tests passed, including model and Streamlit checks. These are software checks only; actual source access and experiment acceptance remain pending.
@@ -59,7 +72,7 @@ Use local `data/raw/` and `data/processed/` directories for licensed records. Ke
 
 ## Work and reviews
 
-Each D2 task has an issue. Work in a task branch, link the issue in a pull request, include what you ran, and ask another teammate to review. Do not count opening an issue as completing its task. See `docs/team_tasks.md` for near-term work and `docs/sprint_log.md` for the evidence record. Student names in task records are proposed owners from D2, not claims that they wrote or approved this initial code.
+Each D2 task has an issue. Work in a task branch, link the issue in a pull request and include what you ran. HazimAli07 is the repository owner/admin and may authorize and merge changes without waiting for another teammate review. External reviews are optional; source/data/model acceptance still requires genuine evidence. Do not count opening an issue as completing its task. See `docs/team_tasks.md` for near-term work and `docs/sprint_log.md` for the evidence record. Student names in task records are proposed owners from D2, not claims that they wrote or approved this initial code.
 
 Never commit loan records, borrower-level outputs, credentials, trained artifacts containing restricted data, or large output files. Keep aggregate results, run settings, code and permitted documentation. No licence to redistribute the source dataset is granted by this repository.
 

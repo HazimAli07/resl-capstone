@@ -50,10 +50,19 @@ class ReadinessTests(unittest.TestCase):
 
     def test_committed_templates_remain_blocked(self):
         root = Path(__file__).resolve().parents[1]
-        report = readiness_report(json.loads((root / "docs/data_access.json").read_text()),
+        report = readiness_report(json.loads((root / "docs/data_access.example.json").read_text()),
                                   json.loads((root / "docs/hazim_review.example.json").read_text()))
         self.assertFalse(report["ready"])
         self.assertFalse(report["checks"]["permitted_access"]["passed"])
+
+    def test_acquired_access_does_not_accept_source_or_training(self):
+        root = Path(__file__).resolve().parents[1]
+        report = readiness_report(json.loads((root / "docs/data_access.json").read_text()),
+                                  json.loads((root / "docs/hazim_review.example.json").read_text()))
+        self.assertTrue(report["checks"]["permitted_access"]["passed"])
+        self.assertFalse(report["ready"])
+        for flag in ("loan_files_read", "model_trained", "final_test_used"):
+            self.assertFalse(report[flag])
 
     def test_future_access_confirmation_rejected(self):
         with self.assertRaisesRegex(ValueError, "future dated"):
