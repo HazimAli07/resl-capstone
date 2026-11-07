@@ -1,0 +1,42 @@
+{
+  "format": "resl-freddie-source-v1",
+  "source": "Freddie Mac Single-Family Loan-Level Dataset, Standard vintage samples",
+  "downloaded_on": "2026-11-07",
+  "download_portal": "https://claritydownload.fmapps.freddiemac.com/CRT/#/sflld",
+  "terms_reference": "https://capitalmarkets.freddiemac.com/crt/docs/pdfs/fre_terms_conditions_sflld.pdf",
+  "guide_release": "48, October 2026",
+  "performance_cutoff": "2026-06-30",
+  "cohort_status": "provisional_unassigned",
+  "archives": [
+    {
+      "vintage_year": 2016,
+      "filename": "sample_2016.zip",
+      "bytes": 55627770,
+      "sha256": "6af6b0fd41756e6c101ff39c0ae33db087a3a2fc6b3b72df4c934db6d534aec1",
+      "members": [
+        "sample_orig_2016.txt",
+        "sample_perf_2016.txt"
+      ]
+    },
+    {
+      "vintage_year": 2019,
+      "filename": "sample_2019.zip",
+      "bytes": 33101938,
+      "sha256": "e943fe71352c414a3efd8b039a78689af0ffd422ab7a8e23423f5957918b9707",
+      "members": [
+        "sample_orig_2019.txt",
+        "sample_perf_2019.txt"
+      ]
+    },
+    {
+      "vintage_year": 2022,
+      "filename": "sample_2022.zip",
+      "bytes": 34704355,
+      "sha256": "53055dcb1f49bde3263ec371d5051b4ad1ca7fb8c102a4a12279178da4c10bb1",
+      "members": [
+        "sample_orig_2022.txt",
+        "sample_perf_2022.txt"
+      ]
+    }
+  ]
+}

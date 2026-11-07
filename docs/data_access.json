@@ -1,10 +1,14 @@
 {
-  "source": "Freddie Mac Single-Family Loan-Level Dataset (planned)",
-  "permitted_access_confirmed": false,
-  "release": null,
-  "selected_years": [],
-  "terms_reference": null,
-  "confirmed_by": null,
-  "confirmed_on": null,
-  "note": "No licensed loan files have been acquired or tested in this repository. Hazim must complete the access record after checking the applicable terms."
+  "source": "Freddie Mac Single-Family Loan-Level Dataset, Standard vintage samples",
+  "permitted_access_confirmed": true,
+  "release": "Current Clarity samples downloaded 2026-11-07; General User Guide Release 48, October 2026; portal performance through 2026-06-30",
+  "selected_years": [
+    2016,
+    2019,
+    2022
+  ],
+  "terms_reference": "https://capitalmarkets.freddiemac.com/crt/docs/pdfs/fre_terms_conditions_sflld.pdf",
+  "confirmed_by": "Hazim Ali",
+  "confirmed_on": "2026-11-07",
+  "note": "User completed individual Clarity registration and requested official sample acquisition. Academic research terms read; original archives retained in ignored local storage with SHA-256 manifest. Vintage selection is provisional. Source fields, dates, labels, splits and actual model results are not accepted by this access record. This records Hazim's individual access; another user must independently register and comply with the applicable terms."
 }

@@ -1,0 +1,60 @@
+name: Freddie Mac source checks
+on:
+  push:
+    branches: ["main", "hazim/**"]
+    paths:
+      - "docs/data_access*.json"
+      - "docs/freddie_source_manifest.json"
+      - "docs/hazim_review.example.json"
+      - "resl/freddie_source.py"
+      - "resl/hazim_contract.py"
+      - "resl/hazim_readiness.py"
+      - "tests/test_freddie_source.py"
+      - "tests/test_hazim_readiness.py"
+      - ".github/workflows/freddie-source.yml"
+  pull_request:
+    paths:
+      - "docs/data_access*.json"
+      - "docs/freddie_source_manifest.json"
+      - "docs/hazim_review.example.json"
+      - "resl/freddie_source.py"
+      - "resl/hazim_contract.py"
+      - "resl/hazim_readiness.py"
+      - "tests/test_freddie_source.py"
+      - "tests/test_hazim_readiness.py"
+      - ".github/workflows/freddie-source.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Test acquisition checks on invented archives
+        run: python -m unittest discover -s tests -p 'test_freddie_source.py' -v
+      - name: Validate public provenance without reading licensed data
+        run: python -m resl.freddie_source --metadata-only --out results/source-ci.json
+      - name: Verify access is recorded and unaccepted reviews still block training
+        run: |
+          python - <<'PY'
+          import json
+          import subprocess
+          import sys
+          p = subprocess.run([sys.executable, "-m", "resl.hazim_readiness",
+                              "--out", "results/source-readiness-ci.json"],
+                             text=True, capture_output=True)
+          if p.returncode != 2:
+              raise SystemExit("Expected unaccepted source/timing review to block training")
+          report = json.loads(p.stdout)
+          assert report["checks"]["permitted_access"]["passed"]
+          assert not report["ready"]
+          assert not report["loan_files_read"]
+          assert not report["model_trained"]
+          assert not report["final_test_used"]
+          print("Access recorded; source/timing/split review remains pending. No loan files read.")
+          PY
