@@ -1,7 +1,7 @@
 # PR6: Freddie Mac source reader
 
-Work in progress on `hazim/pr6-source-reader`. Codex-assisted implementation
-under Hazim's account. No teammate reviewers are required or requested.
+Work in progress on `hazim/pr6-source-reader`. No teammate reviewers are
+required or requested.
 
 ## Reference verified November 13, 2026
 
@@ -24,13 +24,36 @@ modification and must not silently define the study clock.
 ## Work in this PR
 
 - [x] Verify the current official layout and acquired first-row widths.
-- [ ] Add strict streaming readers for both headerless pipe-delimited files.
-- [ ] Reject wrong widths, invalid required months, headers and oversized rows.
-- [ ] Produce private aggregate key, join, date and missing-code checks.
-- [ ] Test failures using invented records and update synthetic-only CI.
+- [x] Add strict streaming readers for both headerless pipe-delimited files.
+- [x] Reject wrong widths, invalid required months, headers and oversized rows.
+- [x] Produce private aggregate key, join, date and missing-code checks.
+- [x] Test failures using invented records; existing CI discovers the new tests.
 - [ ] Run local checks on the acquired archives and record their scope honestly.
 
 Licensed archives and row-level outputs remain in ignored local storage. No real
 data will be uploaded to this PR or GitHub Actions. This work does not accept
 study partitions, invent source/timing approvals, generate labels or train a
 model. Those remaining decisions stay explicit.
+
+## Local use
+
+```bash
+python -m resl.freddie_reader --archive-dir data/raw/freddie_mac/2026-11-07 --out results/pr6/source-structural-profile.json
+```
+
+This requires the recorded access and exact archive sizes, SHA-256 values, member
+names and CRCs before reading records. It streams without extraction, checks
+unique loan and loan/month keys, join coverage, source month ranges and explicit
+candidate-input missing codes. Empty/invalid records stop with a line number,
+without printing loan IDs or row values. It does not treat Loan Age as the study
+clock or rename First Payment Date to an exact origination date.
+
+Profiles stay under ignored `results/`. Exit 2 indicates a key/join issue; parse
+errors also stop. The missing-input denominator is all origination rows, so
+duplicates must be resolved before treating it as a per-loan missingness rate.
+Same-width column reordering cannot be detected from headerless row width alone.
+Other numeric bounds, category conversions, 24-month labels, follow-up, source
+timing and chronology are separate acceptance work. No predictor normalization
+or model fitting is performed. Existing Data and Hazim model workflows discover
+the invented reader tests; GitHub Actions never invokes this command on actual
+archives or receives private profiles.
