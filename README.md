@@ -2,6 +2,24 @@
 
 INFO53883 pre-loan mortgage-risk research prototype. We use information available at application/origination to study adverse outcomes within 24 months. Later repayment records construct labels only. The eventual app supports human review; it does not approve, reject or price loans.
 
+## PR6 source reader - November 13, 2026
+
+The [source reader](docs/hazim_pr6_source_reader.md) supports the official July
+2026 layout: 31 origination and 35 performance fields. It verifies recorded
+access and acquired ZIP integrity before streaming private key/join/date and
+missing-code checks. It writes aggregates under ignored `results/`, with no loan
+IDs, normalized training records, labels or fitted models.
+
+```bash
+python -m resl.freddie_reader --archive-dir data/raw/freddie_mac/2026-11-07 --out results/pr6/source-structural-profile.json
+```
+
+First-payment month stays distinct from an exact origination date; reported Loan
+Age does not define the study window. Source-date, input-timing, label and split
+acceptance remains pending. Passing structural checks does not accept model
+inputs or establish real mortgage performance. Existing CI tests the reader on
+invented records only; licensed archives and private profiles stay local.
+
 ## PR5 real-data acquisition workflow - November 7, 2026
 
 Official Freddie Mac Standard samples for **2016, 2019 and 2022** have been acquired and verified locally. The [source manifest](docs/freddie_source_manifest.json) records their sizes/checksums and public provenance; the [access record](docs/data_access.json) now records Hazim's confirmed individual access. Raw archives, loan rows, prepared records and fitted artifacts remain outside this public repository.
