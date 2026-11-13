@@ -148,6 +148,8 @@ def profile_streams(origination, performance, *, performance_cutoff):
 
 def profile_archives(manifest, archive_dir, access):
     """Require recorded access and exact acquired ZIP integrity before row reads."""
+    if not isinstance(access, dict) or not isinstance(manifest, dict):
+        raise ValueError("Access and source manifest must be JSON objects")
     check_access(access)
     validate_manifest(manifest)
     if (access["source"] != manifest["source"]

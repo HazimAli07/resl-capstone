@@ -120,6 +120,11 @@ class FreddieReaderTests(unittest.TestCase):
                 profile_archives({}, Path("unused"), {})
             verify.assert_not_called()
 
+    def test_nonobject_access_and_manifest_fail_cleanly(self):
+        for manifest, access in (({}, []), ([], {}), ({}, None)):
+            with self.subTest(manifest=manifest, access=access), self.assertRaisesRegex(ValueError, "JSON objects"):
+                profile_archives(manifest, "unused", access)
+
     def test_archive_integration_keeps_only_aggregates_and_no_acceptance(self):
         root = Path(__file__).resolve().parents[1]
         manifest = json.loads((root / "docs/freddie_source_manifest.json").read_text())

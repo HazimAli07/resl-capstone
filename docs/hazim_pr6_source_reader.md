@@ -12,9 +12,11 @@ required or requested.
 
 The official layout workbook was downloaded and read locally. Its SHA-256 is
 `e4ee4ba00b5b1a8d18e2debe3acafdd019b48bafafdeb907cf5b19b49c989f23`.
-It specifies 31 origination fields and 35 monthly performance fields. The first
-row of each acquired 2016/2019/2022 pair has those widths. This is a first-row
-check, not a complete file or cohort validation.
+It specifies 31 origination fields and 35 monthly performance fields. The initial
+first-row check matched those widths. The subsequent local structural profile
+read all three acquired pairs successfully; row counts were independently checked
+by counting line endings in decompressed byte chunks. Detailed profiles and
+source-date findings remain private, not uploaded in this PR.
 
 July's changes moved servicer/MI fields and added new fields. An older positional
 reader would be unsafe. First Payment Date is a month, not an exact origination
@@ -28,7 +30,7 @@ modification and must not silently define the study clock.
 - [x] Reject wrong widths, invalid required months, headers and oversized rows.
 - [x] Produce private aggregate key, join, date and missing-code checks.
 - [x] Test failures using invented records; existing CI discovers the new tests.
-- [ ] Run local checks on the acquired archives and record their scope honestly.
+- [x] Run local checks on the acquired archives and record their scope honestly.
 
 Licensed archives and row-level outputs remain in ignored local storage. No real
 data will be uploaded to this PR or GitHub Actions. This work does not accept
