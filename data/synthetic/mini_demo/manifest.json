@@ -1,8 +1,0 @@
-{
-  "format": "resl-mini-demo-fixture-v1",
-  "synthetic": true,
-  "model_hash": "0ccccaebbbbb47648d5fb8f2d565b93ac0deb80b0a8ef2cab00819c6a74daf75",
-  "generator": "resl.hazim_training.synthetic_cohort; seed 42",
-  "training_rows": 113,
-  "source": "Invented software fixtures only; no Freddie Mac records"
-}

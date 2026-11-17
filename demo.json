@@ -1,0 +1,86 @@
+{
+  "scenarios": {
+    "Purchase example": {
+      "credit_score": 740,
+      "dti": 28,
+      "ltv": 70,
+      "original_balance": 250000,
+      "original_rate": 4.5,
+      "original_term": 360,
+      "loan_purpose": "purchase",
+      "occupancy": "primary",
+      "property_type": "single_family"
+    },
+    "Refinance example": {
+      "credit_score": 660,
+      "dti": 44,
+      "ltv": 90,
+      "original_balance": 350000,
+      "original_rate": 5.5,
+      "original_term": 300,
+      "loan_purpose": "refinance",
+      "occupancy": "primary",
+      "property_type": "condo"
+    },
+    "Missing credit score": {
+      "credit_score": "",
+      "dti": 35,
+      "ltv": 80,
+      "original_balance": 200000,
+      "original_rate": 4.0,
+      "original_term": 360,
+      "loan_purpose": "purchase",
+      "occupancy": "primary",
+      "property_type": "single_family"
+    }
+  },
+  "scenario_order": [
+    "Purchase example",
+    "Refinance example",
+    "Missing credit score"
+  ],
+  "labels": {
+    "credit_score": "Credit score",
+    "dti": "Debt-to-income ratio (%)",
+    "ltv": "Loan-to-value ratio (%)",
+    "original_balance": "Original loan amount (USD)",
+    "original_rate": "Original annual rate (%)",
+    "original_term": "Original term (months)",
+    "loan_purpose": "Loan purpose",
+    "occupancy": "Occupancy",
+    "property_type": "Property type"
+  },
+  "options": {
+    "loan_purpose": [
+      "purchase",
+      "cash_out",
+      "refinance"
+    ],
+    "occupancy": [
+      "primary",
+      "second_home",
+      "investment"
+    ],
+    "property_type": [
+      "single_family",
+      "condo",
+      "cooperative",
+      "manufactured",
+      "pud"
+    ]
+  },
+  "option_labels": {
+    "purchase": "Purchase",
+    "refinance": "Refinance",
+    "cash_out": "Cash-out refinance",
+    "primary": "Primary residence",
+    "second_home": "Second home",
+    "investment": "Investment",
+    "single_family": "Single-family home",
+    "condo": "Condominium",
+    "cooperative": "Cooperative",
+    "manufactured": "Manufactured home",
+    "pud": "Planned unit development"
+  },
+  "model_status": "verified synthetic fixture"
+}
