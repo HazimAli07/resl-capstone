@@ -101,8 +101,6 @@ document.querySelectorAll('[data-view]').forEach(button => button.addEventListen
 document.querySelectorAll('[data-scenario]').forEach(button => button.addEventListener('click',() => configuration && selectScenario(button.dataset.scenario)));
 $('.brand').addEventListener('click',event => {event.preventDefault();showView('application');});
 $('#reset-inputs').addEventListener('click',() => configuration && selectScenario(currentScenario));
-$('#open-guide').addEventListener('click',() => $('#guide-dialog').showModal());
-$('#close-guide').addEventListener('click',() => $('#guide-dialog').close());
 
 async function start() {
   $('#run-button').disabled = true;
