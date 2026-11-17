@@ -11,7 +11,7 @@ hosted demo. Enter fictional examples only; application inputs are not sent to
 GitHub or an inference server.
 
 The workspace includes editable inputs, validation, missing-value feedback,
-comparison, a presentation guide and a plain-language **How the model works**
+comparison and a plain-language **How the model works**
 section. The model is a 64-tree random forest trained on 113 observed invented
 training loans. Its output is an illustrative signal; real-mortgage accuracy
 has not been measured. It makes no lending decision.

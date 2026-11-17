@@ -59,8 +59,8 @@ training/comparison, calibration and untouched final-test evaluation.
 
 ## Before class
 
-Open the public link, run all three examples and keep the app tab open. The
-**Presentation guide** button provides the rehearsal steps inside the website.
+Open the public link, run all three examples and keep the app tab open. Use
+this document for the rehearsal steps.
 No localhost address or Terminal session is needed for the hosted demo.
 
 ## Developer reproduction
