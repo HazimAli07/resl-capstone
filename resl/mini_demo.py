@@ -76,6 +76,8 @@ WEB_ROOT = Path(__file__).resolve().parent / "demo_web"
 
 def make_handler(bundle):
     """Serve only fixed local assets and bounded, same-origin inference requests."""
+    from .build_demo_site import browser_files
+    public_model_files = browser_files(bundle)
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *args):
             pass  # Application inputs are never written to an access log.
@@ -96,6 +98,8 @@ def make_handler(bundle):
 
         def do_GET(self):
             path = urlsplit(self.path).path
+            if path.lstrip('/') in public_model_files:
+                return self.respond(200, public_model_files[path.lstrip('/')])
             if path == "/api/health":
                 return self.respond(200, {"status": "ready", "synthetic_model": True})
             if path == "/api/demo":
@@ -105,7 +109,8 @@ def make_handler(bundle):
                                          "model_status": "verified synthetic fixture"})
             assets = {"/": ("index.html", "text/html; charset=utf-8"),
                       "/assets/app.css": ("app.css", "text/css; charset=utf-8"),
-                      "/assets/app.js": ("app.js", "text/javascript; charset=utf-8")}
+                      "/assets/app.js": ("app.js", "text/javascript; charset=utf-8"),
+                      "/assets/model.mjs": ("model.mjs", "text/javascript; charset=utf-8")}
             if path not in assets:
                 return self.respond(404, {"error": "Not found"})
             filename, content_type = assets[path]

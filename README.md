@@ -2,23 +2,26 @@
 
 INFO53883 pre-loan mortgage-risk research prototype. We use information available at application/origination to study adverse outcomes within 24 months. Later repayment records construct labels only. The eventual app supports human review; it does not approve, reject or price loans.
 
-## Working mini demo - November 17, 2026
+## Hosted mini demo - November 17, 2026
 
-Double-click **Launch Demo.command** on macOS, or run:
+Open **https://hazimali07.github.io/resl-capstone/**. GitHub Pages hosts the
+application; the verified saved forest calculates inside the visitor's browser.
+There is no local server, Python installation or model API needed to use the
+hosted demo. Enter fictional examples only; application inputs are not sent to
+GitHub or an inference server.
 
-```bash
-python -m resl.mini_demo --port 8501 --open-browser
-```
+The workspace includes editable inputs, validation, missing-value feedback,
+comparison, a presentation guide and a plain-language **How the model works**
+section. The model is a 64-tree random forest trained on 113 observed invented
+training loans. Its output is an illustrative signal; real-mortgage accuracy
+has not been measured. It makes no lending decision.
 
-The local application at `http://localhost:8501` includes editable fictional
-applications, verified saved-model inference, missing-value handling, comparison
-and a presentation guide. Python 3.12 or later is sufficient; no third-party
-package installation or model API is required for this interface.
-
-The checked-in package under `data/synthetic/mini_demo/` was trained only on the
-repository's deterministic invented cohort. It is not an accepted mortgage-risk
-model. The app never loads licensed source files or makes a lending decision.
-See [the 3–5 minute walkthrough](docs/mini_demo_walkthrough.md).
+The [3–5 minute walkthrough](docs/mini_demo_walkthrough.md) explains the demo.
+The site is built with `python -m resl.build_demo_site --out _site` and published
+from the dedicated `gh-pages` branch. Only the explicit public site assets and
+synthetic package are included. Browser inference is tested against Python,
+including float32 threshold rounding. Licensed loan files stay outside the site.
+The macOS **Launch Demo.command** shortcut opens the hosted website.
 
 ## PR6 source reader - November 13, 2026
 

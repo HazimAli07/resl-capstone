@@ -1,7 +1,7 @@
-'use strict';
+import {loadBrowserDemo} from './model.mjs';
 const $ = (selector) => document.querySelector(selector);
 const form = $('#application-form');
-let configuration, currentScenario = 'Purchase example', lastResult = null, inputRevision = 0;
+let configuration, predict, currentScenario = 'Purchase example', lastResult = null, inputRevision = 0;
 const cases = ['Purchase example','Refinance example','Missing credit score'];
 const escapeHtml = (value) => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
@@ -33,7 +33,7 @@ function selectScenario(name) {
 }
 
 function showView(view) {
-  const titles = {application:'Application',comparison:'Compare examples',progress:'Project progress'};
+  const titles = {application:'Application',comparison:'Compare examples',progress:'Project progress',model:'How the model works'};
   document.querySelectorAll('.view').forEach(section => {section.hidden = section.id !== `${view}-view`;});
   document.querySelectorAll('[data-view]').forEach(button => {
     const active = button.dataset.view === view;
@@ -66,10 +66,8 @@ form.addEventListener('submit',async event => {
   $('#form-error').hidden = true;
   try {
     const inputs = Object.fromEntries(new FormData(form).entries());
-    const response = await fetch('/api/predict',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({inputs})});
-    const data = await response.json();
+    const data = predict(inputs);
     if (revision !== inputRevision) return;
-    if(!response.ok) throw new Error(data.error || 'The application could not be reviewed.');
     lastResult = data;
     $('#score').textContent = data.demo_score.toFixed(1);
     $('#score-fill').style.width = `${data.demo_score}%`;
@@ -86,7 +84,9 @@ form.addEventListener('submit',async event => {
   } catch(error) {
     if(revision !== inputRevision) return;
     clearResult('Input needs attention');
-    $('#form-error').textContent = error.message === 'Failed to fetch' ? 'The local app is disconnected. Keep the demo server running and try again.' : error.message;
+    let message=error.message;
+    Object.entries(configuration.labels).forEach(([field,label])=>{message=message.replaceAll(field,label);});
+    $('#form-error').textContent = message;
     $('#form-error').hidden = false;
   } finally {button.disabled = false;}
 });
@@ -107,15 +107,17 @@ $('#close-guide').addEventListener('click',() => $('#guide-dialog').close());
 async function start() {
   $('#run-button').disabled = true;
   try {
-    const response = await fetch('/api/demo');
-    if(!response.ok) throw new Error('The saved demo model is unavailable.');
-    configuration = await response.json();
+    ({configuration,predict}=await loadBrowserDemo());
     Object.entries(configuration.options).forEach(([field,options]) => {
       const select = form.elements[field];
       options.forEach(value => {const option = document.createElement('option');option.value=value;option.textContent=configuration.option_labels[value];select.appendChild(option);});
     });
     selectScenario(currentScenario);
     renderComparison(configuration.comparison);
+    $('#model-tree-count').textContent=String(configuration.model_info.tree_count);
+    $('#model-training-count').textContent=String(configuration.model_info.training_rows);
+    const example=predict(configuration.scenarios['Purchase example']);
+    $('#model-math').textContent=`Purchase example: average tree output ≈ ${(example.demo_score/100).toFixed(3)} × 100 = ${example.demo_score.toFixed(1)} / 100.`;
     $('#run-button').disabled = false;
   } catch(error) {$('#form-error').textContent=error.message;$('#form-error').hidden=false;clearResult('Demo unavailable');}
 }

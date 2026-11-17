@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <title>RESL — Application workspace</title>
-  <link rel="stylesheet" href="/assets/app.css"><script src="/assets/app.js" defer></script>
+  <link rel="stylesheet" href="./assets/app.css"><script type="module" src="./assets/app.js"></script>
 </head>
 <body>
   <aside class="sidebar">
@@ -13,8 +13,9 @@
       <button class="nav-item active" data-view="application"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>Application<span class="nav-arrow">↗</span></button>
       <button class="nav-item" data-view="comparison"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10M12 20V4M19 20v-7"/></svg>Compare examples</button>
       <button class="nav-item" data-view="progress"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="m8 12 3 3 5-6"/></svg>Project progress</button>
+      <button class="nav-item" data-view="model"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v7M5 10h14M5 10v7M19 10v7"/><circle cx="12" cy="3" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/></svg>How the model works</button>
     </nav>
-    <div class="sidebar-bottom"><span class="status-dot"></span><span>Running locally</span><p>Team 2B · Mini demo<br>Fictional applications only</p></div>
+    <div class="sidebar-bottom"><span class="status-dot"></span><span>GitHub-hosted demo</span><p>Team 2B · Mini demo<br>Fictional applications only</p></div>
   </aside>
 
   <main>
@@ -44,7 +45,7 @@
             </div></div>
             <p class="field-note"><span>i</span> Leave a numeric field blank to explore missing-value handling.</p>
             <p class="form-error" id="form-error" role="alert" hidden></p>
-            <div class="form-actions"><button class="primary-button" id="run-button" type="submit">Review application <span>→</span></button><span class="privacy-note"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5 7V4a3 3 0 0 1 6 0v3"/></svg>Inputs stay on this laptop</span></div>
+            <div class="form-actions"><button class="primary-button" id="run-button" type="submit">Review application <span>→</span></button><span class="privacy-note"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5 7V4a3 3 0 0 1 6 0v3"/></svg>Inputs stay in your browser</span></div>
           </form>
 
           <aside class="output-panel" aria-label="Model output">
@@ -56,7 +57,7 @@
             <dl class="result-details"><div><dt>Inputs checked</dt><dd id="checked-count">—</dd></div><div><dt>Missing values</dt><dd id="missing-count">—</dd></div><div><dt>Saved model</dt><dd><span class="verified-dot"></span>Verified fixture</dd></div><div><dt>Real-data accuracy</dt><dd>Not measured yet</dd></div><div><dt>Lending decision</dt><dd>Not generated</dd></div></dl>
             <p id="missing-note" class="missing-note" hidden></p>
             <button id="download-result" class="text-button download-link" disabled>Download submitted summary <span>↓</span></button>
-            <div class="pipeline"><span class="eyebrow">BEHIND THE RESULT</span><ol><li><span>01</span>Validate nine origination inputs</li><li><span>02</span>Apply frozen preprocessing</li><li><span>03</span>Run the saved forest model</li></ol></div>
+            <div class="pipeline"><span class="eyebrow">BEHIND THE RESULT</span><ol><li><span>01</span>Validate nine origination inputs</li><li><span>02</span>Apply frozen preprocessing</li><li><span>03</span>Run the saved forest in your browser</li></ol></div>
           </aside>
         </div>
         <footer class="page-footer"><span>Research support, with a human in the loop.</span><span>No approval, rejection or pricing decisions.</span></footer>
@@ -73,6 +74,11 @@
       <section id="progress-view" class="view" hidden>
         <div class="page-heading"><div><p class="eyebrow">PROJECT PROGRESS</p><h1>Built to demonstrate. Ready to evolve.</h1><p class="intro">A clear separation between working software and the remaining research.</p></div></div>
         <div class="progress-layout"><div class="milestones"><article><span class="milestone-number complete">01</span><div><span class="milestone-status">IMPLEMENTED & MERGED</span><h2>Source acquisition & reader</h2><p>Access records, archive integrity checks and streaming source-file profiling are in the repository. Licensed loan records remain outside public GitHub.</p></div></article><article><span class="milestone-number complete">02</span><div><span class="milestone-status">WORKING IN THIS DEMO</span><h2>The application flow</h2><p>Nine input fields, validation, a verified saved development model, local inference and explicit missing-data handling.</p></div></article><article><span class="milestone-number">03</span><div><span class="milestone-status pending">NEXT RESEARCH STEP</span><h2>Actual mortgage evaluation</h2><p>Finalize timing, dates, labels and splits. Compare candidates on common validation loans, calibrate the selected model and evaluate the untouched final test.</p></div></article></div><aside class="scope-note"><span class="eyebrow">TODAY'S SCOPE</span><h2>Demonstrate the workflow.<br>Keep the claims precise.</h2><p>The bundled forest was trained on invented software fixtures. This app does not access the licensed source files and makes no lending decision.</p><a href="https://github.com/HazimAli07/resl-capstone" target="_blank" rel="noreferrer">View project repository ↗</a></aside></div>
+      </section>
+      <section id="model-view" class="view" hidden>
+        <div class="page-heading"><div><p class="eyebrow">THE MODEL, EXPLAINED</p><h1>Many small trees. One combined output.</h1><p class="intro">The demo uses a random forest. Here is what that means in plain language.</p></div></div>
+        <div class="model-explanation"><article><span class="eyebrow">01 · WHAT GOES IN</span><h2>Nine pieces of loan information.</h2><p>Credit score, debt-to-income, loan-to-value, original loan amount, interest rate, term, purpose, occupancy and property type. Future repayment information is kept out of these inputs.</p><p>Debt-to-income compares debt payments with income. Loan-to-value compares the loan amount with the property value.</p></article><article><span class="eyebrow">02 · HOW IT CALCULATES</span><h2><span id="model-tree-count">—</span> small decision trees.</h2><p>A tree follows learned questions about the inputs until it reaches an output. The forest runs all its trees, averages their outputs, then multiplies that average by 100 for the displayed signal.</p><p id="model-math" class="model-math"></p></article><article><span class="eyebrow">03 · WHAT IT MEANS TODAY</span><h2>A working calculation, still a development model.</h2><p>This saved forest was trained on <strong><span id="model-training-count">—</span> fictional loans</strong>. A lower signal means a smaller model output for the fictional example. It is not a credit score, an accuracy percentage or a measured chance of default.</p><p>The real-data model still needs accepted timing, labels and splits, then training and evaluation on mortgage records. Real-mortgage accuracy has not been measured yet.</p></article></div>
+        <div class="editorial-note"><span class="eyebrow">THE RESEARCH GOAL</span><h2>Study future mortgage problems using earlier information.</h2><p>The proposed research target is serious delinquency, foreclosure or REO within a 24-month window. The source date and outcome rules still need acceptance before real-data experiments. The app supports research and human review; it does not approve or reject a loan.</p></div>
       </section>
     </div>
   </main>
