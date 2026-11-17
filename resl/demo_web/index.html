@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>RESL — Application workspace</title>
+  <link rel="stylesheet" href="/assets/app.css"><script src="/assets/app.js" defer></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#application" aria-label="RESL home"><span class="brand-mark">R<span>›</span></span><span>RESL<span class="brand-sub">RESEARCH WORKSPACE</span></span></a>
+    <div class="nav-label">WORKSPACE</div>
+    <nav aria-label="Main navigation">
+      <button class="nav-item active" data-view="application"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>Application<span class="nav-arrow">↗</span></button>
+      <button class="nav-item" data-view="comparison"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10M12 20V4M19 20v-7"/></svg>Compare examples</button>
+      <button class="nav-item" data-view="progress"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="m8 12 3 3 5-6"/></svg>Project progress</button>
+    </nav>
+    <div class="sidebar-bottom"><span class="status-dot"></span><span>Running locally</span><p>Team 2B · Mini demo<br>Fictional applications only</p></div>
+  </aside>
+
+  <main>
+    <header class="topbar"><div class="breadcrumb">Workspace<span>/</span><strong id="breadcrumb-current">Application</strong></div><button class="guide-button" id="open-guide">Presentation guide <span>↗</span></button></header>
+    <div class="page-content">
+      <section id="application-view" class="view">
+        <div class="page-heading"><div><p class="eyebrow">APPLICATION REVIEW</p><h1>A clearer view of the application.</h1><p class="intro">Explore the inputs. Run the model. Understand what is ready.</p></div><span class="demo-label"><span></span>Development demo</span></div>
+        <div class="scenario-strip"><span class="scenario-label">START WITH</span><div class="scenario-options" id="scenario-options" role="group" aria-label="Choose a fictional scenario"><button class="scenario active" data-scenario="Purchase example">Purchase</button><button class="scenario" data-scenario="Refinance example">Refinance</button><button class="scenario" data-scenario="Missing credit score">Missing information</button></div><button id="reset-inputs" class="text-button">↺ Reset</button></div>
+
+        <div class="workspace">
+          <form id="application-form" novalidate>
+            <div class="section-heading"><h2>Application details</h2><span id="case-label">CASE 01 · FICTIONAL</span></div>
+            <div class="form-section"><h3>Borrower & leverage</h3><div class="field-grid">
+              <label class="field">Credit score<div class="input-wrap"><input name="credit_score" inputmode="numeric" autocomplete="off" aria-label="Credit score"><span class="input-unit">/ 850</span></div></label>
+              <label class="field">Debt-to-income<div class="input-wrap"><input name="dti" inputmode="decimal" autocomplete="off" aria-label="Debt-to-income ratio"><span class="input-unit">%</span></div></label>
+              <label class="field">Loan-to-value<div class="input-wrap"><input name="ltv" inputmode="decimal" autocomplete="off" aria-label="Loan-to-value ratio"><span class="input-unit">%</span></div></label>
+            </div></div>
+            <div class="form-section"><h3>Loan terms</h3><div class="field-grid">
+              <label class="field">Original amount<div class="input-wrap"><span class="input-prefix">$</span><input name="original_balance" inputmode="decimal" autocomplete="off" aria-label="Original loan amount in USD" class="with-prefix"><span class="input-unit">USD</span></div></label>
+              <label class="field">Annual rate<div class="input-wrap"><input name="original_rate" inputmode="decimal" autocomplete="off" aria-label="Original annual interest rate"><span class="input-unit">%</span></div></label>
+              <label class="field">Original term<div class="input-wrap"><input name="original_term" inputmode="numeric" autocomplete="off" aria-label="Original loan term"><span class="input-unit">months</span></div></label>
+            </div></div>
+            <div class="form-section"><h3>Property & purpose</h3><div class="field-grid">
+              <label class="field">Loan purpose<select name="loan_purpose" aria-label="Loan purpose"></select></label>
+              <label class="field">Occupancy<select name="occupancy" aria-label="Occupancy"></select></label>
+              <label class="field">Property type<select name="property_type" aria-label="Property type"></select></label>
+            </div></div>
+            <p class="field-note"><span>i</span> Leave a numeric field blank to explore missing-value handling.</p>
+            <p class="form-error" id="form-error" role="alert" hidden></p>
+            <div class="form-actions"><button class="primary-button" id="run-button" type="submit">Review application <span>→</span></button><span class="privacy-note"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5 7V4a3 3 0 0 1 6 0v3"/></svg>Inputs stay on this laptop</span></div>
+          </form>
+
+          <aside class="output-panel" aria-label="Model output">
+            <div class="output-heading"><span class="eyebrow">MODEL OUTPUT</span><span id="result-state" class="result-state">Awaiting review</span></div>
+            <div class="score-line" aria-live="polite"><span id="score">—</span><span class="score-unit">/ 100</span></div>
+            <h2 class="score-label">Illustrative risk signal</h2>
+            <div class="score-track"><span id="score-fill"></span></div><div class="scale-labels"><span>0 · Lower signal</span><span>100 · Higher signal</span></div>
+            <p class="score-description">A working preview from a synthetic-trained model.<br>This is not a validated mortgage-default probability.</p>
+            <dl class="result-details"><div><dt>Inputs checked</dt><dd id="checked-count">—</dd></div><div><dt>Missing values</dt><dd id="missing-count">—</dd></div><div><dt>Saved model</dt><dd><span class="verified-dot"></span>Verified fixture</dd></div><div><dt>Real-data accuracy</dt><dd>Not measured yet</dd></div><div><dt>Lending decision</dt><dd>Not generated</dd></div></dl>
+            <p id="missing-note" class="missing-note" hidden></p>
+            <button id="download-result" class="text-button download-link" disabled>Download submitted summary <span>↓</span></button>
+            <div class="pipeline"><span class="eyebrow">BEHIND THE RESULT</span><ol><li><span>01</span>Validate nine origination inputs</li><li><span>02</span>Apply frozen preprocessing</li><li><span>03</span>Run the saved forest model</li></ol></div>
+          </aside>
+        </div>
+        <footer class="page-footer"><span>Research support, with a human in the loop.</span><span>No approval, rejection or pricing decisions.</span></footer>
+      </section>
+
+      <section id="comparison-view" class="view" hidden>
+        <div class="page-heading"><div><p class="eyebrow">MODEL EXPLORATION</p><h1>Three cases. One saved model.</h1><p class="intro">Compare fictional applications using the same verified development package.</p></div><span class="demo-label"><span></span>Synthetic examples</span></div>
+        <div class="comparison-header"><h2>Example comparison</h2><span>ILLUSTRATIVE SCORES · NOT RISK BANDS</span></div>
+        <div class="table-scroll"><table class="comparison-table"><thead><tr><th>Fictional application</th><th>Credit score</th><th>DTI</th><th>LTV</th><th>Demo signal / 100</th><th></th></tr></thead><tbody id="comparison-body"></tbody></table></div>
+        <p class="comparison-note">Each case differs in several inputs. Score differences are not causal feature explanations or validated lending recommendations.</p>
+        <div class="editorial-note"><span class="eyebrow">WHY THIS MATTERS</span><h2>A repeatable flow, from inputs to output.</h2><p>Each example uses the same input checks, saved preprocessing and forest. The interface is working; evaluating performance on the accepted mortgage cohort is the next research step.</p></div>
+      </section>
+
+      <section id="progress-view" class="view" hidden>
+        <div class="page-heading"><div><p class="eyebrow">PROJECT PROGRESS</p><h1>Built to demonstrate. Ready to evolve.</h1><p class="intro">A clear separation between working software and the remaining research.</p></div></div>
+        <div class="progress-layout"><div class="milestones"><article><span class="milestone-number complete">01</span><div><span class="milestone-status">IMPLEMENTED & MERGED</span><h2>Source acquisition & reader</h2><p>Access records, archive integrity checks and streaming source-file profiling are in the repository. Licensed loan records remain outside public GitHub.</p></div></article><article><span class="milestone-number complete">02</span><div><span class="milestone-status">WORKING IN THIS DEMO</span><h2>The application flow</h2><p>Nine input fields, validation, a verified saved development model, local inference and explicit missing-data handling.</p></div></article><article><span class="milestone-number">03</span><div><span class="milestone-status pending">NEXT RESEARCH STEP</span><h2>Actual mortgage evaluation</h2><p>Finalize timing, dates, labels and splits. Compare candidates on common validation loans, calibrate the selected model and evaluate the untouched final test.</p></div></article></div><aside class="scope-note"><span class="eyebrow">TODAY'S SCOPE</span><h2>Demonstrate the workflow.<br>Keep the claims precise.</h2><p>The bundled forest was trained on invented software fixtures. This app does not access the licensed source files and makes no lending decision.</p><a href="https://github.com/HazimAli07/resl-capstone" target="_blank" rel="noreferrer">View project repository ↗</a></aside></div>
+      </section>
+    </div>
+  </main>
+
+  <dialog id="guide-dialog"><div class="guide-heading"><span class="eyebrow">3–5 MINUTE WALKTHROUGH</span><button id="close-guide" aria-label="Close presentation guide">×</button></div><h2>A short, confident walkthrough.</h2><ol><li><strong>Introduce the research.</strong><span>Origination inputs, future mortgage outcomes, human review. Today's model and applications are synthetic.</span></li><li><strong>Run the purchase example.</strong><span>Show the inputs, calculated score and saved preprocessing.</span></li><li><strong>Compare a second case.</strong><span>Use the same model on different fictional inputs. Avoid claiming calibrated risk bands.</span></li><li><strong>Show missing data and validation.</strong><span>Try Missing information, then enter a credit score of 1000 to show rejection.</span></li><li><strong>Close with what's next.</strong><span>Source/date/label acceptance, actual-data model comparison, calibration and final evaluation.</span></li></ol></dialog>
+</body>
+</html>

@@ -2,6 +2,24 @@
 
 INFO53883 pre-loan mortgage-risk research prototype. We use information available at application/origination to study adverse outcomes within 24 months. Later repayment records construct labels only. The eventual app supports human review; it does not approve, reject or price loans.
 
+## Working mini demo - November 17, 2026
+
+Double-click **Launch Demo.command** on macOS, or run:
+
+```bash
+python -m resl.mini_demo --port 8501 --open-browser
+```
+
+The local application at `http://localhost:8501` includes editable fictional
+applications, verified saved-model inference, missing-value handling, comparison
+and a presentation guide. Python 3.12 or later is sufficient; no third-party
+package installation or model API is required for this interface.
+
+The checked-in package under `data/synthetic/mini_demo/` was trained only on the
+repository's deterministic invented cohort. It is not an accepted mortgage-risk
+model. The app never loads licensed source files or makes a lending decision.
+See [the 3–5 minute walkthrough](docs/mini_demo_walkthrough.md).
+
 ## PR6 source reader - November 13, 2026
 
 The [source reader](docs/hazim_pr6_source_reader.md) supports the official July
