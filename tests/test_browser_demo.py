@@ -130,7 +130,7 @@ class PagesBuildTests(unittest.TestCase):
             for path in parser.paths:
                 resolved=urlsplit(urljoin('https://example.test/resl-capstone/',path)).path
                 self.assertTrue(resolved.startswith('/resl-capstone/'))
-                self.assertTrue((output/path).is_file())
+                self.assertTrue((output/urlsplit(path).path).is_file())
 
     def test_build_rejects_an_actual_data_package(self):
         model=load_demo_bundle();model.payload=copy.deepcopy(model.payload);model.payload['synthetic']=False
